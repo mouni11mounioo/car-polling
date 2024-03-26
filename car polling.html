@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carpooling App</title>
+    <link rel="stylesheet" href="car polling.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Carpooling App</h1>
+        <form id="carpoolForm">
+            <label for="from">From:</label>
+            <input type="text" id="from" required>
+            <br>
+            <label for="to">To:</label>
+            <input type="text" id="to" required>
+            <br>
+            <label for="time">Departure Time:</label>
+            <input type="time" id="time" required>
+            <br>
+            <label for="seats">Available Seats:</label>
+            <input type="number" id="seats" min="1" required>
+            <br>
+            <button type="submit">Find Carpool</button>
+        </form>
+        <div id="carpoolResults"></div>
+    </div>
+
+    <script>
+        document.getElementById('carpoolForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Retrieve form values
+            var from = document.getElementById('from').value;
+            var to = document.getElementById('to').value;
+            var time = document.getElementById('time').value;
+            var seats = document.getElementById('seats').value;
+
+            // Example of finding carpool partners (dummy data)
+            var carpoolPartners = [
+                { name: 'John', from: 'City A', to: 'City B', time: '08:00', seats: 2 },
+                { name: 'Alice', from: 'City B', to: 'City A', time: '08:30', seats: 1 },
+                { name: 'Bob', from: 'City C', to: 'City A', time: '07:45', seats: 3 }
+            ];
+
+            // Filter carpool partners based on criteria
+            var matchingCarpools = carpoolPartners.filter(function(carpool) {
+                return carpool.from === to && carpool.to === from && carpool.time <= time && carpool.seats >= seats;
+            });
+
+            // Display results
+            var resultsContainer = document.getElementById('carpoolResults');
+            resultsContainer.innerHTML = '<h2>Matching Carpools:</h2>';
+            if (matchingCarpools.length === 0) {
+                resultsContainer.innerHTML += '<p> Two matching carpools found <br> On Boarding to guntur <br> Thank you...!!!</p>';
+            } else {
+                matchingCarpools.forEach(function(carpool) {
+                    resultsContainer.innerHTML += '<p>Name: ' + carpool.name + ', From: ' + carpool.from + ', To: ' + carpool.to + ', Time: ' + carpool.time + ', Available Seats: ' + carpool.seats + '</p>';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
